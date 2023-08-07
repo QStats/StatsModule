@@ -4,6 +4,7 @@ import networkx as nx
 import numpy as np
 from joblib import Parallel, delayed
 from networkx.algorithms.community import louvain_communities, modularity
+from util import G
 
 n = 100
 
@@ -12,7 +13,6 @@ d_types = [np.int_, np.int_, np.object_, np.float64, np.float_, np.float_]
 types = np.dtype([(a, d) for a, d in zip(d_alias, d_types)])
 dims = (n, 1)
 arr: np.ndarray = np.zeros(dims, dtype=types)
-G = nx.karate_club_graph()
 
 
 def louvain_run(idx: int, resolution: float = 0.5):
