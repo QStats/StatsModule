@@ -15,7 +15,7 @@ class Louvain:
     solver = "louvain"
 
     @staticmethod
-    def run(idx: int, resolution: float = 0.5, graph: nx.Graph = G):
+    def run(idx: int, resolution: float, graph: nx.Graph = G):
         start = time.time()
         lcda = louvain_communities(graph, resolution=resolution)
         end = time.time()
@@ -27,7 +27,7 @@ class Louvain:
     @staticmethod
     def run_parallel(self, n_runs: int, resolution: float):
         types = np.dtype([(a, d) for a, d in zip(self.d_alias, self.d_types)])
-        dims = (n, 1)
+        dims = (n_runs, 1)
         arr: np.ndarray = np.zeros(dims, dtype=types)
 
         res_lcda = Parallel(n_jobs=4)(
