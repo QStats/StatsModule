@@ -4,7 +4,7 @@ import networkx as nx
 import numpy as np
 from joblib import Parallel, delayed
 from networkx.algorithms.community import louvain_communities
-from scorer import Scorer
+from ..scorer.scorer import Scorer
 
 from util import G
 
@@ -25,13 +25,13 @@ class Louvain:
         return idx, len(lcda), lcda, mod, 34.55, total_time
 
     @staticmethod
-    def run_parallel(self, n_runs: int, resolution: float):
-        types = np.dtype([(a, d) for a, d in zip(self.d_alias, self.d_types)])
+    def run_parallel(n_runs: int, resolution: float):
+        types = np.dtype([(a, d) for a, d in zip(Louvain.d_alias, Louvain.d_types)])
         dims = (n_runs, 1)
         arr: np.ndarray = np.zeros(dims, dtype=types)
 
         res_lcda = Parallel(n_jobs=4)(
-            delayed(self.run)(i, resolution) for i in range(n_runs)
+            delayed(Louvain.run)(i, resolution) for i in range(n_runs)
         )
 
         for idx, el in enumerate(res_lcda):

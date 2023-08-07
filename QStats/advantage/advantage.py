@@ -5,15 +5,9 @@ from demo.network_community_detection.utils.utils import (
 )
 from dwave.system import DWaveSampler, EmbeddingComposite
 from QHyper.util import QUBO
-from scorer import Scorer
+from scorer.scorer import Scorer
 
 from util import G
-
-name = "karate"
-folder = "demo/network_community_detection/demo_output"
-solution_file = f"{folder}/csv_files/{name}_adv_solution.csv"
-decoded_solution_file = f"{folder}/csv_files/{name}_adv_decoded_solution.csv"
-# img_solution_path = f"{folder}/{name}_adv.png"
 
 
 class Advantage:
