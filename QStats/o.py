@@ -1,6 +1,5 @@
 import numpy as np
 
-
 name = "karate"
 folder = "demo/network_community_detection/demo_output"
 outfile = f"{folder}/{name}_array.npz"

@@ -1,9 +1,9 @@
+import time
+
+import networkx as nx
 import numpy as np
 from joblib import Parallel, delayed
-import time
 from networkx.algorithms.community import louvain_communities, modularity
-import networkx as nx
-
 
 n = 100
 
