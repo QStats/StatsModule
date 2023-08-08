@@ -1,27 +1,21 @@
-import networkx as nx
 from Printer.printer import Printer
 from QStats.louvain.louvain import Louvain
-from util import G
 
+
+solver = Louvain.solver
 name = "karate"
-folder = "demo/network_community_detection/demo_output/louvain"
-solution_file = f"{folder}/csv_files/{name}_louvain_solution.csv"
+folder = f"demo/network_community_detection/demo_output/{solver}"
+solution_file = f"{folder}/csv_files/{name}_{solver}_solution.csv"
+path = f"{folder}/{name}_{solver}"
 
 
-resolution = 0.5
+C_RES = 0.5
+M_RES = 0.5
+N_RUNS = 10
 
-res = Louvain.run_parallel(100, 0.5)
-
+res = Louvain.run_parallel(N_RUNS, C_RES, M_RES)
 Printer.csv_from_array(res, solution_file)
 
 samples = res["sample"]
-print(samples)
-for i, s in enumerate(samples):
-    a = s[0]
-    mod = res["mod_score"][i][0]
-    path = f"{folder}/{name}_louvain_{i}.png"
-    pos = nx.spring_layout(G, seed=123)
-    title = f"solver: {Louvain.solver} mod: {mod}"
-    Printer.draw_nx(
-        G, Printer.calculate_color_map_louvain(a), path, pos=pos, title=title
-    )
+modularities = res["mod_score"]
+Printer.draw_samples_modularities(samples, modularities, path, solver)

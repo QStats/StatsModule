@@ -60,18 +60,6 @@ class Printer:
         return color_map
 
     @staticmethod
-    def calculate_color_map_louvain(communities: list, graph: nx.Graph = G):
-        color_map = []
-        for node in graph:
-            if node in communities[0]:
-                color_map.append("red")
-            elif node in communities[1]:
-                color_map.append("blue")
-            else:
-                color_map.append(COLORS[7])
-        return color_map
-
-    @staticmethod
     def draw_nx(graph: nx.Graph, color_map: list, path: str, **kwargs) -> None:
         pos = kwargs.get("pos") if "pos" in kwargs else None
         f = plt.figure()
@@ -97,17 +85,8 @@ class Printer:
         Printer.draw_nx(graph, color_map, path, **kwargs)
 
     @staticmethod
-    def louvain_communities_to_sample_like(louvain_communities) -> dict:
-        sample_like = {
-            node_i: comm_i
-            for comm_i, comms_set in enumerate(louvain_communities)
-            for node_i in comms_set
-        }
-        return dict(sorted(sample_like.items()))
-
-    @staticmethod
     def draw_samples_modularities(
-        samples: np.ndarray,
+        samples: np.ndarray[dict],
         modularities: np.ndarray,
         base_path: str,
         solver: str,

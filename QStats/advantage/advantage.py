@@ -1,8 +1,5 @@
 import networkx as nx
 import numpy as np
-from demo.network_community_detection.utils.utils import (
-    communities_from_sample,
-)
 from dwave.system import DWaveSampler, EmbeddingComposite
 from QHyper.problems.base import Problem
 from QHyper.util import QUBO
@@ -12,17 +9,31 @@ from util import G
 from ..scorer.scorer import Scorer
 
 
-class Advantage:
-    d_alias = ["ord", "k", "sample", "mod_score", "energy", "run_time"]
-    d_types = [np.int_, np.int_, np.object_, np.float64, np.float_, np.float_]
-    solver = "adv"
-
+class AdvantageHelper:
     @staticmethod
     def decode_solution(problem: Problem, sample: dict) -> dict:
         return {
             int(str(key)[len("x") :]): val
             for key, val in problem.sort_encoded_solution(sample).items()
         }
+
+    @staticmethod
+    def communities_from_sample(sample: dict, N_communities: int) -> list:
+        communities: list = []
+        for k in range(N_communities):
+            comm = []
+            for i in sample:
+                if sample[i] == k:
+                    comm.append(i)
+            communities.append(set(comm))
+
+        return communities
+
+
+class Advantage:
+    d_alias = ["ord", "k", "sample", "mod_score", "energy", "run_time"]
+    d_types = [np.int_, np.int_, np.object_, np.float64, np.float_, np.float_]
+    solver = "adv"
 
     @staticmethod
     def run(
@@ -40,7 +51,6 @@ class Advantage:
         dims = (runs, 1)
         arr: np.ndarray = np.zeros(dims, dtype=types)
 
-        # sampler = DWaveSampler(solver=dict(topology__type=topology_type))
         for i in range(runs):
             sampler = DWaveSampler(solver=dict(topology__type=topology_type))
             sampleset = EmbeddingComposite(sampler).sample(bqm)
@@ -48,9 +58,8 @@ class Advantage:
             energy = sampleset.first.energy
             run_time = 10
 
-            print(f"sample: {sample}")
-            solution = Advantage.decode_solution(problem, sample)
-            communities_partition = communities_from_sample(
+            solution = AdvantageHelper.decode_solution(problem, sample)
+            communities_partition = AdvantageHelper.communities_from_sample(
                 solution, communities
             )
             mod = Scorer.score_modularity(

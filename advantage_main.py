@@ -1,4 +1,3 @@
-import networkx as nx
 from QHyper.problems.community_detection import (
     CommunityDetectionProblem,
     KarateClubNetwork,
