@@ -4,9 +4,10 @@ import networkx as nx
 import numpy as np
 from joblib import Parallel, delayed
 from networkx.algorithms.community import louvain_communities
-from ..scorer.scorer import Scorer
 
 from util import G
+
+from ..scorer.scorer import Scorer
 
 
 class Louvain:
@@ -26,7 +27,9 @@ class Louvain:
 
     @staticmethod
     def run_parallel(n_runs: int, resolution: float):
-        types = np.dtype([(a, d) for a, d in zip(Louvain.d_alias, Louvain.d_types)])
+        types = np.dtype(
+            [(a, d) for a, d in zip(Louvain.d_alias, Louvain.d_types)]
+        )
         dims = (n_runs, 1)
         arr: np.ndarray = np.zeros(dims, dtype=types)
 

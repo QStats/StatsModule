@@ -46,14 +46,18 @@ class Printer:
                 writer.writerow(*arr[i])
 
     @staticmethod
-    def calculate_color_map(sample: dict, graph: nx.Graph):
+    def calculate_color_map(sample: dict, graph: nx.Graph) -> list:
         color_map = []
-        if "x" in str(list(sample.keys()))[0] or "s" in str(list(sample.keys()))[0]:
+        if (
+            "x" in str(list(sample.keys()))[0]
+            or "s" in str(list(sample.keys()))[0]
+        ):
             for node in graph:
-                color_map.append(COLORS[sample["x" + str(node)]])
+                color_map.append(COLORS[int(sample["x" + str(node)])])
         else:
             for node in graph:
-                color_map.append(COLORS[sample[str(node)]])
+                color_map.append(COLORS[int(sample[node])])
+        return color_map
 
     @staticmethod
     def calculate_color_map_louvain(communities: list, graph: nx.Graph = G):
@@ -86,7 +90,9 @@ class Printer:
             plt.show()
 
     @staticmethod
-    def draw_communities_from_sample(sample: dict, path: str, graph: nx.Graph = G, **kwargs):
+    def draw_communities_from_sample(
+        sample: dict, path: str, graph: nx.Graph = G, **kwargs
+    ):
         color_map = Printer.calculate_color_map(sample, graph)
         Printer.draw_nx(graph, color_map, path, **kwargs)
 
@@ -99,3 +105,17 @@ class Printer:
         }
         return dict(sorted(sample_like.items()))
 
+    @staticmethod
+    def draw_samples_modularities(
+        samples: np.ndarray,
+        modularities: np.ndarray,
+        base_path: str,
+        solver: str,
+    ):
+        pos = (nx.spring_layout(G, seed=123),)
+        for i, (s, m) in enumerate(zip(samples, modularities)):
+            pos = nx.spring_layout(G, seed=123)
+            title = f"solver: {solver} mod: {m[0]}"
+            Printer.draw_communities_from_sample(
+                s[0], f"{base_path}_{i}.png", pos=pos, title=title
+            )

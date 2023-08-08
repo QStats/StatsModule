@@ -1,5 +1,5 @@
 import dimod
-from QHyper.problems import Problem
+from QHyper.problems.base import Problem
 
 
 class BQM:
