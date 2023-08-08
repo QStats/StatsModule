@@ -18,7 +18,7 @@ class Advantage:
     def run(
         bqm: QUBO,
         runs: int,
-        resolution: float,
+        modularity_resolution: float,
         problem: Problem,
         communities: int = 2,
         topology_type: str = "pegasus",
@@ -42,7 +42,7 @@ class Advantage:
                 solution, communities
             )
             mod = Scorer.score_modularity(
-                graph, communities_partition, resolution
+                graph, communities_partition, modularity_resolution
             )
 
             arr[i] = (

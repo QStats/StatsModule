@@ -8,13 +8,14 @@ solution_file = f"{folder}/csv_files/{name}_{solver}_solution.csv"
 path = f"{folder}/{name}_{solver}"
 
 
-C_RES = 0.5
-M_RES = 0.5
+COMMUNITIES_RES = 0.5
+MODULARITY_RES = 0.5
 N_RUNS = 10
 
-res = Louvain.run_parallel(N_RUNS, C_RES, M_RES)
-Printer.csv_from_array(res, solution_file)
+res = Louvain.run_parallel(N_RUNS, COMMUNITIES_RES, MODULARITY_RES)
 
 samples = res["sample"]
 modularities = res["mod_score"]
+
+Printer.csv_from_array(res, solution_file)
 Printer.draw_samples_modularities(samples, modularities, path, solver)

@@ -29,7 +29,11 @@ class Louvain:
         return idx, len(lcda), sample, mod, total_time
 
     @staticmethod
-    def run_parallel(n_runs: int, c_resolution: float, m_resolution: float):
+    def run_parallel(
+        n_runs: int,
+        communities_resolution: float,
+        modularity_resolution: float,
+    ):
         types = np.dtype(
             [(a, d) for a, d in zip(Louvain.d_alias, Louvain.d_types)]
         )
@@ -37,7 +41,9 @@ class Louvain:
         arr: np.ndarray = np.zeros(dims, dtype=types)
 
         res_lcda = Parallel(n_jobs=4)(
-            delayed(Louvain.run)(i, c_resolution, m_resolution)
+            delayed(Louvain.run)(
+                i, communities_resolution, modularity_resolution
+            )
             for i in range(n_runs)
         )
 
