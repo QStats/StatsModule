@@ -1,6 +1,5 @@
 from Printer.printer import Printer
-from QStats.louvain.louvain import Louvain
-
+from QStats.solvers.louvain.louvain import Louvain
 
 solver = Louvain.solver
 name = "karate"

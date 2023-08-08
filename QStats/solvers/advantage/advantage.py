@@ -4,30 +4,9 @@ from dwave.system import DWaveSampler, EmbeddingComposite
 from QHyper.problems.base import Problem
 from QHyper.util import QUBO
 
+from QStats.utils.converter.converter import Converter as C
+from QStats.utils.scorer.scorer import Scorer
 from util import G
-
-from ..scorer.scorer import Scorer
-
-
-class AdvantageHelper:
-    @staticmethod
-    def decode_solution(problem: Problem, sample: dict) -> dict:
-        return {
-            int(str(key)[len("x") :]): val
-            for key, val in problem.sort_encoded_solution(sample).items()
-        }
-
-    @staticmethod
-    def communities_from_sample(sample: dict, N_communities: int) -> list:
-        communities: list = []
-        for k in range(N_communities):
-            comm = []
-            for i in sample:
-                if sample[i] == k:
-                    comm.append(i)
-            communities.append(set(comm))
-
-        return communities
 
 
 class Advantage:
@@ -58,8 +37,8 @@ class Advantage:
             energy = sampleset.first.energy
             run_time = 10
 
-            solution = AdvantageHelper.decode_solution(problem, sample)
-            communities_partition = AdvantageHelper.communities_from_sample(
+            solution = C.AdvantageHelper.decode_solution(problem, sample)
+            communities_partition = C.AdvantageHelper.communities_from_sample(
                 solution, communities
             )
             mod = Scorer.score_modularity(

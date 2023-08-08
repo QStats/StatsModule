@@ -4,8 +4,8 @@ from QHyper.problems.community_detection import (
 )
 
 from Printer.printer import Printer
-from QStats.advantage.advantage import Advantage
-from QStats.converter.converter import BQM
+from QStats.models.bqm import BQM
+from QStats.solvers.advantage.advantage import Advantage
 
 solver = Advantage.solver
 name = "karate"
