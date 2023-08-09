@@ -4,23 +4,20 @@ N = 4
 
 d_alias = ["ord", "k", "sample", "mod_score", "run_time"]
 d_types = [np.int_, np.int_, np.object_, np.float64, np.float_]
-types = np.dtype(
-    [(a, d) for a, d in zip(d_alias, d_types)]
-)
+types = np.dtype([(a, d) for a, d in zip(d_alias, d_types)])
 dims = (N, 1)
 arr: np.ndarray = np.zeros(dims, dtype=types)
 
-x = np.array([(1, 2), (3, 4)], dtype=[('foo', np.int_), ('bar', np.int_)])
+x = np.array([(1, 2), (3, 4)], dtype=[("foo", np.int_), ("bar", np.int_)])
 
-p = np.array([[_] for _ in x['foo']]).squeeze()
+p = np.array([[_] for _ in x["foo"]]).squeeze()
 print(p)
 print(p.shape)
 
 
 for i in range(N):
-    arr[i] = i, i+1, {"d": 3, 4: "k"}, 0.6573853, 1232
-print(f"ARR: {arr}\n\n\n")
-print(arr.shape)
+    arr[i] = i, i + 1, {"d": 3, 4: "k"}, 0.6573853, 1232
+print(f"ARR: {arr}\narr shape: {arr.shape}\n\n")
 
 names = np.array(arr.dtype.names)
 ids = arr["ord"]
@@ -41,27 +38,40 @@ s = np.array(t).squeeze()
 
 stack = np.zeros(s.shape)
 
-stack = np.hstack(
-    (ids, k, samples, modularity_scores, run_times)
-)
-# print(names)
-print(stack)
-print(type(stack[0]))
-print(stack[0].shape)
-print(stack[0])
-print(stack[0].reshape(1, -1).squeeze().shape)
-for el in stack[0]:
-    print(type(el))
+stack = np.hstack((ids, k, samples, modularity_scores, run_times))
+# # print(names)
+# print(stack)
+# print(type(stack[0]))
+# print(stack[0].shape)
+# print(stack[0])
+# print(stack[0].reshape(1, -1).squeeze().shape)
+# for el in stack[0]:
+#     print(type(el))
 
-print(stack.shape)
-print(types)
-print(f"stack shape: {stack.shape}")
-res: np.ndarray = np.zeros(dims, dtype=types)
-print(stack)
-for i in range(res.shape[0]):
-    r, s = res[i][0], stack[i]
-    print(f"r: {r}, s: {s}")
-    res[i][0] = tuple(s)
+# print(stack.shape)
+# print(types)
+# print(f"stack shape: {stack.shape}")
+# res: np.ndarray = np.zeros((N,), dtype=types)
+# tup = np.vectorize(lambda t: tuple(t))
+# print("----------")
+# print(tup(stack[0,:]))
+
+
+res = np.array(list(map(tuple, stack[::])), dtype=types).reshape(4, 1)
+print(res.shape)
+
+
+# print(stack)
+
+# print(res.shape)
+# print(stack.shape)
+# for i in range(res.shape[0]):
+#     r, s = res[i][0], stack[i]
+#     print(f"r: {r}, s: {s}")
+#     res[i] = tuple(s)
+
+
+# res = np.full(dims, stack, types)
 
 
 print(f"RES: {res}")

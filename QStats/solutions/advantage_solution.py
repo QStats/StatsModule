@@ -35,10 +35,12 @@ class AdvantageSolution:
         stack = np.hstack(
             [ids, k, samples, modularity_scores, energies, run_times]
         )
-        names = np.array(["ord", "k", "sample", "mod_score", "energy", "run_time"])
-        print(stack)
-        print(names)
-        res = np.vstack((names, stack))
+        types = np.dtype(
+            [(a, d) for a, d in zip(Advantage.d_alias, Advantage.d_types)]
+        )
+        res = np.array(list(map(tuple, stack[::])), dtype=types).reshape(
+            samples.shape[0], 1
+        )
 
         Printer.csv_from_array(res, solution_file)
         Printer.draw_samples_modularities(
