@@ -38,9 +38,6 @@ class Printer:
     @staticmethod
     def csv_from_array(arr: np.ndarray, path: str) -> None:
         header = arr.dtype.names
-        if header is None:
-            header = ["header :("]
-        print(f"HEADER: {header}")
         with Printer.safe_open(path, "w") as file:
             writer = csv.writer(file)
             writer.writerow(header)

@@ -32,11 +32,13 @@ class AdvantageSolution:
         modularity_scores = scores["mod_score"]
         energies = adv_res["energy"]
         run_times = adv_res["run_time"]
-        res = np.stack(
-            [ids, k, samples, modularity_scores, energies, run_times], axis=-1
+        stack = np.hstack(
+            [ids, k, samples, modularity_scores, energies, run_times]
         )
-
-        print(f"RES: {res}")
+        names = np.array(["ord", "k", "sample", "mod_score", "energy", "run_time"])
+        print(stack)
+        print(names)
+        res = np.vstack((names, stack))
 
         Printer.csv_from_array(res, solution_file)
         Printer.draw_samples_modularities(
@@ -57,7 +59,6 @@ class AdvantageSolution:
 
         for i in range(n_samples):
             sample = adv_samples[i][0]
-            print(f"sample: {sample}")
             solution = C.AdvantageHelper.decode_solution(self.problem, sample)
             communities_partition = C.AdvantageHelper.communities_from_sample(
                 solution, self.n_communities
