@@ -13,7 +13,7 @@ from util import MOD_SCORE, R_TIME, SAMPLE, K
 class Louvain:
     d_aliases = [K, SAMPLE, MOD_SCORE, R_TIME]
     d_types = [np.float_, np.object_, np.float64, np.float_]
-    solver = "louvain"
+    name = "louvain"
 
     @staticmethod
     def run(

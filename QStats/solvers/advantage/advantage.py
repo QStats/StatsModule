@@ -10,7 +10,7 @@ from util import EN, MOD_SCORE, R_TIME, SAMPLE, K
 class Advantage:
     d_aliases = [K, SAMPLE, MOD_SCORE, EN, R_TIME]
     d_types = [np.float_, np.object_, np.float64, np.float_, np.float_]
-    solver = "adv"
+    name = "adv"
 
     @staticmethod
     def run(

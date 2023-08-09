@@ -1,25 +1,24 @@
 import dimod
 import numpy as np
-from QHyper.problems.community_detection import \
-    CommunityDetectionProblem as CDP
+from QHyper.problems.community_detection import (
+    CommunityDetectionProblem as CDP,
+)
 
 from Printer.printer import Printer
 from QStats.solvers.advantage.advantage import Advantage
 from QStats.utils.converter.converter import Converter as C
 from QStats.utils.scorer.scorer import Scorer
+from paths import csv_path, img_dir
 from util import EN, MOD_SCORE, R_TIME, SAMPLE, K
-
-solver = Advantage.solver
-name = "karate"
-folder = f"demo/network_community_detection/demo_output/{solver}"
-solution_file = f"{folder}/csv_files/{name}_{solver}_solution.csv"
-path = f"{folder}/{name}_{solver}"
 
 
 class AdvantageSolution:
-    def __init__(self, problem: CDP, n_communities: int) -> None:
+    def __init__(
+        self, problem: CDP, n_communities: int, problem_name: str
+    ) -> None:
         self.problem = problem
         self.n_communities = n_communities
+        self.problem_name = problem_name
 
     def compute(
         self, bqm: dimod.BQM, n_runs: int, modularity_resolution: float
@@ -45,9 +44,14 @@ class AdvantageSolution:
             samples.shape[0], 1
         )
 
-        Printer.csv_from_array(res, solution_file)
+        Printer.csv_from_array(
+            res, csv_path(self.problem_name, Advantage.name)
+        )
         Printer.draw_samples_modularities(
-            samples, modularity_scores, path, solver, self.problem.G
+            samples=samples,
+            modularities=modularity_scores,
+            graph=self.problem.G,
+            base_path=img_dir(self.problem_name, Advantage.name),
         )
 
         return res

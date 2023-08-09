@@ -1,20 +1,18 @@
 import numpy as np
-from QHyper.problems.base import Problem
+from QHyper.problems.community_detection import (
+    CommunityDetectionProblem as CDP,
+)
 
 from Printer.printer import Printer
 from QStats.solvers.louvain.louvain import Louvain
 from util import MOD_SCORE, SAMPLE
-
-solver = Louvain.solver
-name = "karate"
-folder = f"demo/network_community_detection/demo_output/{solver}"
-solution_file = f"{folder}/csv_files/{name}_{solver}_solution.csv"
-path = f"{folder}/{name}_{solver}"
+from paths import csv_path, img_dir
 
 
 class LouvainSolution:
-    def __init__(self, problem: Problem) -> None:
+    def __init__(self, problem: CDP, problem_name: str) -> None:
         self.problem = problem
+        self.problem_name = problem_name
 
     def compute(
         self,
@@ -31,9 +29,13 @@ class LouvainSolution:
             n_jobs=n_jobs,
         )
 
-        Printer.csv_from_array(res, solution_file)
+        Printer.csv_from_array(res, csv_path(self.problem_name, Louvain.name))
         Printer.draw_samples_modularities(
-            res[SAMPLE], res[MOD_SCORE], path, solver
+            samples=res[SAMPLE],
+            modularities=res[MOD_SCORE],
+            graph=self.problem.G,
+            base_path=img_dir(self.problem_name, Louvain.name),
+            solver=Louvain.name,
         )
 
         return res

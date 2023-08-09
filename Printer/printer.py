@@ -6,7 +6,6 @@ import networkx as nx
 import numpy as np
 from matplotlib import pyplot as plt
 
-from util import G
 
 COLORS = {
     0: "blue",
@@ -47,7 +46,6 @@ class Printer:
 
     @staticmethod
     def calculate_color_map(sample: dict, graph: nx.Graph) -> list:
-        print(f"[{__file__}] sample: {sample}, type: {type(sample)}")
         color_map = []
         if (
             "x" in str(list(sample.keys()))[0]
@@ -80,7 +78,7 @@ class Printer:
 
     @staticmethod
     def draw_communities_from_sample(
-        sample: dict, path: str, graph: nx.Graph = G, **kwargs
+        sample: dict, graph: nx.Graph, path: str, **kwargs
     ) -> None:
         color_map = Printer.calculate_color_map(sample, graph)
         Printer.draw_nx(graph, color_map, path, **kwargs)
@@ -89,14 +87,18 @@ class Printer:
     def draw_samples_modularities(
         samples: np.ndarray[dict],
         modularities: np.ndarray,
+        graph: nx.Graph,
         base_path: str,
         solver: str,
-        graph: nx.Graph = G,
     ) -> None:
         pos = (nx.spring_layout(graph, seed=123),)
         for i, (s, m) in enumerate(zip(samples, modularities)):
             pos = nx.spring_layout(graph, seed=123)
             title = f"solver: {solver} mod: {m[0]}"
             Printer.draw_communities_from_sample(
-                s[0], f"{base_path}_{i}.png", graph=graph, pos=pos, title=title
+                sample=s[0],
+                graph=graph,
+                path=f"{base_path}_{i}.png",
+                pos=pos,
+                title=title,
             )
