@@ -1,8 +1,7 @@
 import dimod
 import numpy as np
-from QHyper.problems.community_detection import (
-    CommunityDetectionProblem as CDP,
-)
+from QHyper.problems.community_detection import \
+    CommunityDetectionProblem as CDP
 
 from paths import csv_path, img_dir
 from Printer.printer import Printer
