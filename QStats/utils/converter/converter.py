@@ -1,19 +1,20 @@
-from QHyper.problems.base import Problem
+from QHyper.problems.community_detection import \
+    CommunityDetectionProblem as CDP
 
 
 class Converter:
     class AdvantageHelper:
         @staticmethod
-        def decode_solution(problem: Problem, sample: dict) -> dict:
+        def decode_solution(problem: CDP, sample: dict) -> dict:
             return {
                 int(str(key)[len("x") :]): val
                 for key, val in problem.sort_encoded_solution(sample).items()
             }
 
         @staticmethod
-        def communities_from_sample(sample: dict, N_communities: int) -> list:
+        def communities_from_sample(sample: dict, n_communities: int) -> list:
             communities: list = []
-            for k in range(N_communities):
+            for k in range(n_communities):
                 comm = []
                 for i in sample:
                     if sample[i] == k:

@@ -1,12 +1,8 @@
-import networkx as nx
-import numpy as np
-from dwave.system import DWaveSampler, EmbeddingComposite
-from QHyper.problems.base import Problem
-from QHyper.util import QUBO
+from time import time
 
-from QStats.utils.converter.converter import Converter as C
-from QStats.utils.scorer.scorer import Scorer
-from util import G
+import numpy as np
+from dimod import BinaryQuadraticModel as BQM
+from dwave.system import DWaveSampler, EmbeddingComposite
 
 
 class Advantage:
@@ -16,42 +12,24 @@ class Advantage:
 
     @staticmethod
     def run(
-        bqm: QUBO,
-        runs: int,
-        modularity_resolution: float,
-        problem: Problem,
-        communities: int = 2,
-        topology_type: str = "pegasus",
-        graph: nx.Graph = G,
-    ):
-        types = np.dtype(
-            [(a, d) for a, d in zip(Advantage.d_alias, Advantage.d_types)]
-        )
-        dims = (runs, 1)
+        bqm: BQM, n_runs: int, topology_type: str = "pegasus"
+    ) -> np.ndarray:
+        aa = ["ord", "sample", "energy", "run_time"]
+        tt = [np.int_, np.object_, np.float64, np.float_]
+        types = np.dtype([(a, d) for a, d in zip(aa, tt)])
+        dims = (n_runs, 1)
         arr: np.ndarray = np.zeros(dims, dtype=types)
 
-        for i in range(runs):
+        for i in range(n_runs):
+            tic = time()
             sampler = DWaveSampler(solver=dict(topology__type=topology_type))
             sampleset = EmbeddingComposite(sampler).sample(bqm)
+            toc = time()
+
             sample = sampleset.first.sample
             energy = sampleset.first.energy
-            run_time = 10
+            run_time = toc - tic
 
-            solution = C.AdvantageHelper.decode_solution(problem, sample)
-            communities_partition = C.AdvantageHelper.communities_from_sample(
-                solution, communities
-            )
-            mod = Scorer.score_modularity(
-                graph, communities_partition, modularity_resolution
-            )
-
-            arr[i] = (
-                i,
-                len(communities_partition),
-                solution,
-                mod,
-                energy,
-                run_time,
-            )
+            arr[i] = i, sample, energy, run_time
 
         return arr

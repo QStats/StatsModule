@@ -7,7 +7,6 @@ from networkx.algorithms.community import louvain_communities
 
 from QStats.utils.converter.converter import Converter as C
 from QStats.utils.scorer.scorer import Scorer
-from util import G
 
 
 class Louvain:
@@ -17,7 +16,7 @@ class Louvain:
 
     @staticmethod
     def run(
-        idx: int, c_resolution: float, m_resolution: float, graph: nx.Graph = G
+        idx: int, graph: nx.Graph, c_resolution: float, m_resolution: float
     ):
         start = time.time()
         lcda = louvain_communities(graph, resolution=c_resolution)
@@ -31,6 +30,7 @@ class Louvain:
     @staticmethod
     def run_parallel(
         n_runs: int,
+        graph: nx.Graph,
         communities_resolution: float,
         modularity_resolution: float,
     ):
@@ -42,7 +42,7 @@ class Louvain:
 
         res_lcda = Parallel(n_jobs=4)(
             delayed(Louvain.run)(
-                i, communities_resolution, modularity_resolution
+                i, graph, communities_resolution, modularity_resolution
             )
             for i in range(n_runs)
         )

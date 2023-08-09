@@ -38,6 +38,9 @@ class Printer:
     @staticmethod
     def csv_from_array(arr: np.ndarray, path: str) -> None:
         header = arr.dtype.names
+        if header is None:
+            header = ["header :("]
+        print(f"HEADER: {header}")
         with Printer.safe_open(path, "w") as file:
             writer = csv.writer(file)
             writer.writerow(header)
@@ -90,11 +93,12 @@ class Printer:
         modularities: np.ndarray,
         base_path: str,
         solver: str,
+        graph: nx.Graph = G,
     ):
-        pos = (nx.spring_layout(G, seed=123),)
+        pos = (nx.spring_layout(graph, seed=123),)
         for i, (s, m) in enumerate(zip(samples, modularities)):
-            pos = nx.spring_layout(G, seed=123)
+            pos = nx.spring_layout(graph, seed=123)
             title = f"solver: {solver} mod: {m[0]}"
             Printer.draw_communities_from_sample(
-                s[0], f"{base_path}_{i}.png", pos=pos, title=title
+                s[0], f"{base_path}_{i}.png", graph=graph, pos=pos, title=title
             )
