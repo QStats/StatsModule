@@ -3,10 +3,10 @@ from QHyper.problems.community_detection import (
     CommunityDetectionProblem as CDP,
 )
 
+from paths import csv_path, img_dir
 from Printer.printer import Printer
 from QStats.solvers.louvain.louvain import Louvain
 from util import MOD_SCORE, SAMPLE
-from paths import csv_path, img_dir
 
 
 class LouvainSolution:

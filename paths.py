@@ -1,4 +1,4 @@
-OUTPUT_DIR = "demo/demo_output"
+OUTPUT_DIR = "demo"
 CSV_DIR_SUFF = "csv_files"
 
 IN_BRAIN_NETWORK_DIR = (

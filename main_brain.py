@@ -1,23 +1,18 @@
-import dimod
 from QHyper.problems.community_detection import (
-    CommunityDetectionProblem,
-    KarateClubNetwork,
     BrainNetwork,
+    CommunityDetectionProblem,
 )
-from QHyper.solvers.converter import Converter
 
-from QStats.solutions.advantage_solution import AdvantageSolution
+from paths import BRAIN_PR_NAME, IN_BRAIN_NETWORK_DIR, IN_BRAIN_NETWORK_FILE
 from QStats.solutions.louvain_solution import LouvainSolution
-from paths import IN_BRAIN_NETWORK_DIR, IN_BRAIN_NETWORK_FILE, BRAIN_PR_NAME
-
 
 LAGRANGE_MULT = 10
 
-LOUVAIN_C_RES = 0.5
-LOUVAIN_M_RES = 0.5
+LOUVAIN_C_RES = 0.125
+LOUVAIN_M_RES = LOUVAIN_C_RES
 LOUVAIN_RUNS = 10
 
-ADV_C_RES = 1
+ADV_C_RES = 0.5
 ADV_M_RES = 0.5
 ADV_RUNS = 1
 

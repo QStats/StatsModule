@@ -1,8 +1,8 @@
-from QStats.solvers.advantage.advantage import Advantage
-from QStats.solvers.louvain.louvain import Louvain
-from paths import OUTPUT_DIR, CSV_DIR_SUFF, BRAIN_PR_NAME, KARATE_PR_NAME
 import os
 
+from paths import BRAIN_PR_NAME, CSV_DIR_SUFF, KARATE_PR_NAME, OUTPUT_DIR
+from QStats.solvers.advantage.advantage import Advantage
+from QStats.solvers.louvain.louvain import Louvain
 
 SOLV_NAMES = [Advantage.name, Louvain.name]
 PR_NAMES = [BRAIN_PR_NAME, KARATE_PR_NAME]

@@ -4,11 +4,11 @@ from QHyper.problems.community_detection import (
     CommunityDetectionProblem as CDP,
 )
 
+from paths import csv_path, img_dir
 from Printer.printer import Printer
 from QStats.solvers.advantage.advantage import Advantage
 from QStats.utils.converter.converter import Converter as C
 from QStats.utils.scorer.scorer import Scorer
-from paths import csv_path, img_dir
 from util import EN, MOD_SCORE, R_TIME, SAMPLE, K
 
 
@@ -52,6 +52,7 @@ class AdvantageSolution:
             modularities=modularity_scores,
             graph=self.problem.G,
             base_path=img_dir(self.problem_name, Advantage.name),
+            solver=Advantage.name,
         )
 
         return res
