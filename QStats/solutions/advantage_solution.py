@@ -7,6 +7,7 @@ from Printer.printer import Printer
 from QStats.solvers.advantage.advantage import Advantage
 from QStats.utils.converter.converter import Converter as C
 from QStats.utils.scorer.scorer import Scorer
+from util import EN, MOD_SCORE, R_TIME, SAMPLE, K
 
 solver = Advantage.solver
 name = "karate"
@@ -25,20 +26,24 @@ class AdvantageSolution:
     ) -> np.ndarray:
         adv_res = Advantage.run(bqm=bqm, n_runs=n_runs)
 
-        scores = self.process_samples(adv_res["sample"], modularity_resolution)
-        ids = adv_res["ord"]
-        k = scores["k"]
-        samples = scores["sample"]
-        modularity_scores = scores["mod_score"]
-        energies = adv_res["energy"]
-        run_times = adv_res["run_time"]
-        stack = np.hstack(
-            [ids, k, samples, modularity_scores, energies, run_times]
+        raw_samples = adv_res[SAMPLE]
+        energies = adv_res[EN]
+        r_times = adv_res[R_TIME]
+
+        scores = self.process_samples(raw_samples, modularity_resolution)
+        k = scores[K]
+        samples = scores[SAMPLE]
+        modularity_scores = scores[MOD_SCORE]
+
+        res_stacked = np.hstack(
+            [k, samples, modularity_scores, energies, r_times]
         )
-        names = np.array(["ord", "k", "sample", "mod_score", "energy", "run_time"])
-        print(stack)
-        print(names)
-        res = np.vstack((names, stack))
+        types = np.dtype(
+            [(a, d) for a, d in zip(Advantage.d_aliases, Advantage.d_types)]
+        )
+        res = np.array(list(map(tuple, res_stacked[::])), dtype=types).reshape(
+            samples.shape[0], 1
+        )
 
         Printer.csv_from_array(res, solution_file)
         Printer.draw_samples_modularities(
@@ -49,10 +54,10 @@ class AdvantageSolution:
 
     def process_samples(
         self, adv_samples: np.ndarray, modularity_resolution: float
-    ):
-        aa = ["ord", "k", "sample", "mod_score"]
-        tt = [np.int_, np.float_, np.object_, np.float_]
-        types = np.dtype([(a, d) for a, d in zip(aa, tt)])
+    ) -> np.ndarray:
+        da = [K, SAMPLE, MOD_SCORE]
+        dt = [np.float_, np.object_, np.float_]
+        types = np.dtype([(a, d) for a, d in zip(da, dt)])
         n_samples = adv_samples.shape[0]
         dims = (n_samples, 1)
         arr: np.ndarray = np.zeros(dims, dtype=types)
@@ -66,6 +71,6 @@ class AdvantageSolution:
             mod = Scorer.score_modularity(
                 self.problem.G, communities_partition, modularity_resolution
             )
-            arr[i] = (i, len(communities_partition), solution, mod)
+            arr[i] = (len(communities_partition), solution, mod)
 
         return arr

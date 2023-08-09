@@ -47,6 +47,7 @@ class Printer:
 
     @staticmethod
     def calculate_color_map(sample: dict, graph: nx.Graph) -> list:
+        print(f"[{__file__}] sample: {sample}, type: {type(sample)}")
         color_map = []
         if (
             "x" in str(list(sample.keys()))[0]
@@ -80,7 +81,7 @@ class Printer:
     @staticmethod
     def draw_communities_from_sample(
         sample: dict, path: str, graph: nx.Graph = G, **kwargs
-    ):
+    ) -> None:
         color_map = Printer.calculate_color_map(sample, graph)
         Printer.draw_nx(graph, color_map, path, **kwargs)
 
@@ -91,7 +92,7 @@ class Printer:
         base_path: str,
         solver: str,
         graph: nx.Graph = G,
-    ):
+    ) -> None:
         pos = (nx.spring_layout(graph, seed=123),)
         for i, (s, m) in enumerate(zip(samples, modularities)):
             pos = nx.spring_layout(graph, seed=123)

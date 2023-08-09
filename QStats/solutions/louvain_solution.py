@@ -3,6 +3,7 @@ from QHyper.problems.base import Problem
 
 from Printer.printer import Printer
 from QStats.solvers.louvain.louvain import Louvain
+from util import MOD_SCORE, SAMPLE
 
 solver = Louvain.solver
 name = "karate"
@@ -16,16 +17,23 @@ class LouvainSolution:
         self.problem = problem
 
     def compute(
-        self, n_runs: int, communities_res: float, modularity_res: float
+        self,
+        n_runs: int,
+        communities_res: float,
+        modularity_res: float,
+        n_jobs: int = 4,
     ) -> np.ndarray:
         res = Louvain.run_parallel(
-            n_runs, self.problem.G, communities_res, modularity_res
+            n_runs,
+            self.problem.G,
+            communities_res,
+            modularity_res,
+            n_jobs=n_jobs,
         )
 
-        samples = res["sample"]
-        modularities = res["mod_score"]
-
         Printer.csv_from_array(res, solution_file)
-        Printer.draw_samples_modularities(samples, modularities, path, solver)
+        Printer.draw_samples_modularities(
+            res[SAMPLE], res[MOD_SCORE], path, solver
+        )
 
         return res

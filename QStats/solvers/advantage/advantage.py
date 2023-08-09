@@ -4,19 +4,21 @@ import numpy as np
 from dimod import BinaryQuadraticModel as BQM
 from dwave.system import DWaveSampler, EmbeddingComposite
 
+from util import EN, MOD_SCORE, R_TIME, SAMPLE, K
+
 
 class Advantage:
-    d_alias = ["ord", "k", "sample", "mod_score", "energy", "run_time"]
-    d_types = [np.int_, np.int_, np.object_, np.float64, np.float_, np.float_]
+    d_aliases = [K, SAMPLE, MOD_SCORE, EN, R_TIME]
+    d_types = [np.float_, np.object_, np.float64, np.float_, np.float_]
     solver = "adv"
 
     @staticmethod
     def run(
         bqm: BQM, n_runs: int, topology_type: str = "pegasus"
     ) -> np.ndarray:
-        aa = ["ord", "sample", "energy", "run_time"]
-        tt = [np.int_, np.object_, np.float64, np.float_]
-        types = np.dtype([(a, d) for a, d in zip(aa, tt)])
+        da = [SAMPLE, EN, R_TIME]
+        dt = [np.object_, np.float64, np.float_]
+        types = np.dtype([(a, t) for a, t in zip(da, dt)])
         dims = (n_runs, 1)
         arr: np.ndarray = np.zeros(dims, dtype=types)
 
@@ -30,6 +32,6 @@ class Advantage:
             energy = sampleset.first.energy
             run_time = toc - tic
 
-            arr[i] = i, sample, energy, run_time
+            arr[i] = sample, energy, run_time
 
         return arr
