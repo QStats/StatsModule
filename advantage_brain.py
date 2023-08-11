@@ -1,31 +1,30 @@
-import dimod
-from QHyper.problems.community_detection import (BrainNetwork,
-                                                 CommunityDetectionProblem)
-from QHyper.solvers.converter import Converter
+import numpy as np
 
-from paths import BRAIN_PR_NAME, IN_BRAIN_NETWORK_DIR, IN_BRAIN_NETWORK_FILE
-from QStats.solutions.advantage_solution import AdvantageSolution
-
+from paths import csv_path
+from Printer.printer import Printer
+from resolution_search import ParamGrid, Search
 
 C_RES = 1.2
 M_RES = 1
-N_RUNS = 1
+N_RUNS_PER_PARAM = 2
+RES_RUNS = 7
 
+resolution_space = np.linspace(0.8, 1, 2)
 
-problem = CommunityDetectionProblem(
-    BrainNetwork(
-        input_data_dir=IN_BRAIN_NETWORK_DIR,
-        input_data_name=IN_BRAIN_NETWORK_FILE,
-        resolution=C_RES,
-    ), communities=1
+param_grid = ParamGrid(
+    resolution_grid=resolution_space,
+    modularity_score_resoltion=resolution_space,
 )
 
-qubo = Converter.create_qubo(problem, [1])
-bqm = dimod.BinaryQuadraticModel.from_qubo(qubo)
+res = Search.run_grid(param_grid=param_grid)
+print("---------------------------------")
+print(f"RES: {res}")
 
-advantage = AdvantageSolution(
-    problem=problem, n_communities=2, problem_name=BRAIN_PR_NAME
-)
-adv_res = advantage.compute(
-    bqm=bqm, n_runs=N_RUNS, modularity_resolution=M_RES
-)
+Printer.csv_from_array(res, "w", csv_path("brain", "adv"))
+# Printer.draw_samples_modularities(
+#     samples=samples,
+#     modularities=modularity_scores,
+#     graph=self.problem.G,
+#     base_path=img_dir(self.problem_name, Advantage.name),
+#     solver=Advantage.name,
+# )

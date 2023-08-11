@@ -29,14 +29,14 @@ COLORS = {
 
 class Printer:
     @staticmethod
-    def safe_open(path: str, permission: str, **kwargs) -> Any:
+    def safe_open(path: str, mode: str, **kwargs) -> Any:
         os.makedirs(os.path.dirname(path), exist_ok=True)
-        return open(path, permission, **kwargs)
+        return open(path, mode, **kwargs)
 
     @staticmethod
-    def csv_from_array(arr: np.ndarray, path: str) -> None:
+    def csv_from_array(arr: np.ndarray, mode: str, path: str) -> None:
         header = arr.dtype.names
-        with Printer.safe_open(path, "w") as file:
+        with Printer.safe_open(path, mode) as file:
             writer = csv.writer(file)
             writer.writerow(header)
 

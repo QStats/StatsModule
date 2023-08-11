@@ -15,6 +15,9 @@ def problem_dir(problem_name: str) -> str:
     return f"{OUTPUT_DIR}/{problem_name}"
 
 
+# def resolution_dir()
+
+
 def solver_dir(problem_name, solver_name: str) -> str:
     return f"{problem_dir(problem_name)}/{solver_name}"
 
