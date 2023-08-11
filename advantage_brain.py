@@ -8,18 +8,15 @@ from QStats.solvers.advantage.advantage import Advantage
 from resolution_search import ParamGrid, Search
 from util import MATRIX_RESOLUTION, MOD_SCORE, SAMPLE, SCORE_RESOLUTION
 
-ID = 2
 
+ID = 4
 
-C_RES = 1.2
-M_RES = 1
-RES_RUNS = 50
+RES_RUNS = 15
 
 
 graph = BrainNetwork(IN_BRAIN_NETWORK_DIR, IN_BRAIN_NETWORK_FILE).graph
 
-matrix_res_space = np.linspace(0.8, 1, RES_RUNS)
-# score_res_space = np.linspace(1, 1, RES_RUNS)
+matrix_res_space = np.linspace(1.05, 1.3, RES_RUNS)
 score_res_space = np.array([1] * RES_RUNS)
 
 param_grid = ParamGrid(
@@ -30,15 +27,18 @@ param_grid = ParamGrid(
 res: np.ndarray = Search.run_grid(param_grid=param_grid, n_communities=2)
 print("done")
 
-np.savez("res", res=res)
+np.savez(f"res_{ID}", res=res)
+
+# npzfile = np.load("res_3.npz", allow_pickle=True)
+# res = npzfile["res"]
 
 Printer.csv_from_array(res, "w", csv_path(ID, "brain", "adv"))
-# Printer.draw_samples_modularities(
-#     samples=res[SAMPLE],
-#     mod_scores=res[MOD_SCORE],
-#     matrix_res=res[MATRIX_RESOLUTION],
-#     score_res=res[SCORE_RESOLUTION],
-#     graph=graph,
-#     base_path=img_dir(ID, "brain", Advantage.name),
-#     solver=Advantage.name,
-# )
+Printer.draw_samples_modularities(
+    samples=res[SAMPLE],
+    mod_scores=res[MOD_SCORE],
+    matrix_res=res[MATRIX_RESOLUTION],
+    score_res=res[SCORE_RESOLUTION],
+    graph=graph,
+    base_path=img_dir(ID, "brain", Advantage.name),
+    solver=Advantage.name,
+)

@@ -16,8 +16,8 @@ EXPERIMENT_PREF = "E"
 def solver_dir(id: str | int, problem_name: str, solver_name: str) -> str:
     return (
         f"{OUTPUT_DIR}/{problem_name}/"
-        + f"{EXPERIMENT_PREF}{str(id)}/"
-        + f"{solver_name}"
+        + f"{solver_name}/"
+        + f"{EXPERIMENT_PREF}{str(id)}"
     )
 
 

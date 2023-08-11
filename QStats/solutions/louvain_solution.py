@@ -28,12 +28,14 @@ class LouvainSolution:
             n_jobs=n_jobs,
         )
 
-        Printer.csv_from_array(res, csv_path(self.problem_name, Louvain.name))
+        Printer.csv_from_array(res, "w", csv_path(1, self.problem_name, Louvain.name))
         Printer.draw_samples_modularities(
             samples=res[SAMPLE],
             mod_scores=res[MOD_SCORE],
+            matrix_res=np.array([[0]*len(res[SAMPLE])]),
+            score_res=np.array([[0]*len(res[SAMPLE])]),
             graph=self.problem.G,
-            base_path=img_dir(self.problem_name, Louvain.name),
+            base_path=img_dir(1, self.problem_name, Louvain.name),
             solver=Louvain.name,
         )
 

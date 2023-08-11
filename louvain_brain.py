@@ -6,7 +6,7 @@ from QStats.solutions.louvain_solution import LouvainSolution
 
 C_RES = 0.11
 M_RES = 1
-N_RUNS = 10
+N_RUNS = 2
 
 
 problem = CommunityDetectionProblem(

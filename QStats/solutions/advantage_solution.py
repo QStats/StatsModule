@@ -2,6 +2,7 @@ import dimod
 import numpy as np
 from QHyper.problems.community_detection import \
     CommunityDetectionProblem as CDP
+from QStats.solvers.advantage.advantage import Advantage
 
 from QStats.utils.converter.converter import Converter as C
 from QStats.utils.scorer.scorer import Scorer
@@ -16,8 +17,8 @@ class AdvantageSolution:
     def compute(
         self, bqm: dimod.BQM, n_runs: int, score_mod_resolution: float
     ) -> np.ndarray:
-        # adv_res = Advantage.run(bqm=bqm, n_runs=n_runs)
-        adv_res = np.array([])
+        adv_res = Advantage.run(bqm=bqm, n_runs=n_runs)
+        # adv_res = np.array([])
 
         raw_samples = adv_res[SAMPLE]
         energies = adv_res[EN]

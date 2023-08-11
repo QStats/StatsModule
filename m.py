@@ -1,3 +1,4 @@
-# print(np.linspace(1, 1.5, 6))
-x: float = 5.43935927509342754
-print(type(str("{:.4f}".format(x))))
+import numpy as np
+
+
+print(np.linspace(1, 1.5, 6))

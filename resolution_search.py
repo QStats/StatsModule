@@ -1,9 +1,14 @@
 from typing import TypeAlias, TypedDict
 
 import numpy as np
+from QStats.solutions.advantage_solution import AdvantageSolution
+from bqm_factory import BQMFactory, BrainProblemInstance as BPI
+from paths import solver_dir
 
 from util import (ADV_RES_ALIASES, ADV_RES_DTYPES, EN, MATRIX_RESOLUTION,
                   MOD_SCORE, R_TIME, SAMPLE, SCORE_RESOLUTION, K)
+
+from Printer.printer import Printer
 
 ResolutionGrid: TypeAlias = np.ndarray
 RunsPerValue: TypeAlias = np.ndarray
@@ -30,17 +35,22 @@ class Search:
         res: np.ndarray = np.ndarray((n_params, 1), dtype=types)
 
         for i, (res_val, mod_res) in enumerate(zip(*param_grid.values())):
-            # problem_instance = BPI.get(resolution=res_val, n_communities=1)
+            problem_instance = BPI.get(resolution=res_val, n_communities=1)
 
-            # bqm = BQMFactory.bqm(problem=problem_instance, weights=[1])
+            bqm = BQMFactory.bqm(problem=problem_instance, weights=[1])
 
-            # runs_res = AdvantageSolution(
-            #     problem=problem_instance, n_communities=n_communities
-            # ).compute(bqm=bqm, n_runs=1, score_mod_resolution=mod_res)
+            runs_res = AdvantageSolution(
+                problem=problem_instance, n_communities=n_communities
+            ).compute(bqm=bqm, n_runs=1, score_mod_resolution=mod_res)
 
-            # np.savez("arr", runs_res=runs_res)
-            npzfile = np.load("arr.npz", allow_pickle=True)
-            runs_res = npzfile["runs_res"]
+            save_dir = solver_dir(4, "brain", "adv")
+            with Printer.safe_open(f"{save_dir}/run_res_{i}", "w"):
+                try:
+                    np.savez(f"{save_dir}/run_res_{i}", runs_res=runs_res)
+                except Exception:
+                    np.savez("arr", runs_res=runs_res)
+            # npzfile = np.load("arr.npz", allow_pickle=True)
+            # runs_res = npzfile["runs_res"]
 
             tt = np.dtype([(a, d) for a, d in zip(da, dt)])
             modularity_cols: np.ndarray = np.ndarray((1, 1), dtype=tt)
