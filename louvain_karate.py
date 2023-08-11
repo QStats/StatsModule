@@ -4,7 +4,6 @@ from QHyper.problems.community_detection import (CommunityDetectionProblem,
 from paths import KARATE_PR_NAME
 from QStats.solutions.louvain_solution import LouvainSolution
 
-
 C_RES = 0.5
 M_RES = 0.5
 N_RUNS = 10

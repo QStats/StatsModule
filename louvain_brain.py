@@ -4,7 +4,6 @@ from QHyper.problems.community_detection import (BrainNetwork,
 from paths import BRAIN_PR_NAME, IN_BRAIN_NETWORK_DIR, IN_BRAIN_NETWORK_FILE
 from QStats.solutions.louvain_solution import LouvainSolution
 
-
 C_RES = 0.11
 M_RES = 1
 N_RUNS = 10

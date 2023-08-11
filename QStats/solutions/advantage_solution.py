@@ -3,32 +3,27 @@ import numpy as np
 from QHyper.problems.community_detection import \
     CommunityDetectionProblem as CDP
 
-from paths import csv_path, img_dir
-from Printer.printer import Printer
-from QStats.solvers.advantage.advantage import Advantage
 from QStats.utils.converter.converter import Converter as C
 from QStats.utils.scorer.scorer import Scorer
-from util import EN, MOD_SCORE, R_TIME, SAMPLE, K
+from util import ADV_RES_TYPES, EN, MOD_SCORE, R_TIME, SAMPLE, K
 
 
 class AdvantageSolution:
-    def __init__(
-        self, problem: CDP, n_communities: int, problem_name: str
-    ) -> None:
+    def __init__(self, problem: CDP, n_communities: int) -> None:
         self.problem = problem
         self.n_communities = n_communities
-        self.problem_name = problem_name
 
     def compute(
-        self, bqm: dimod.BQM, n_runs: int, modularity_resolution: float
+        self, bqm: dimod.BQM, n_runs: int, score_mod_resolution: float
     ) -> np.ndarray:
-        adv_res = Advantage.run(bqm=bqm, n_runs=n_runs)
+        # adv_res = Advantage.run(bqm=bqm, n_runs=n_runs)
+        adv_res: np.ndarray = np.array([])
 
         raw_samples = adv_res[SAMPLE]
         energies = adv_res[EN]
         r_times = adv_res[R_TIME]
 
-        scores = self.process_samples(raw_samples, modularity_resolution)
+        scores = self.process_samples(raw_samples, score_mod_resolution)
         k = scores[K]
         samples = scores[SAMPLE]
         modularity_scores = scores[MOD_SCORE]
@@ -36,23 +31,10 @@ class AdvantageSolution:
         res_stacked = np.hstack(
             [k, samples, modularity_scores, energies, r_times]
         )
-        types = np.dtype(
-            [(a, d) for a, d in zip(Advantage.d_aliases, Advantage.d_types)]
-        )
-        res = np.array(list(map(tuple, res_stacked[::])), dtype=types).reshape(
-            samples.shape[0], 1
-        )
 
-        Printer.csv_from_array(
-            res, csv_path(self.problem_name, Advantage.name)
-        )
-        Printer.draw_samples_modularities(
-            samples=samples,
-            modularities=modularity_scores,
-            graph=self.problem.G,
-            base_path=img_dir(self.problem_name, Advantage.name),
-            solver=Advantage.name,
-        )
+        res = np.array(
+            list(map(tuple, res_stacked[::])), dtype=ADV_RES_TYPES
+        ).reshape(samples.shape[0], 1)
 
         return res
 
