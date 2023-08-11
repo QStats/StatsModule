@@ -31,7 +31,7 @@ class LouvainSolution:
         Printer.csv_from_array(res, csv_path(self.problem_name, Louvain.name))
         Printer.draw_samples_modularities(
             samples=res[SAMPLE],
-            modularities=res[MOD_SCORE],
+            mod_scores=res[MOD_SCORE],
             graph=self.problem.G,
             base_path=img_dir(self.problem_name, Louvain.name),
             solver=Louvain.name,

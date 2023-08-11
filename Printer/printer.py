@@ -6,6 +6,9 @@ import networkx as nx
 import numpy as np
 from matplotlib import pyplot as plt
 
+plt.rcParams["figure.figsize"] = (9, 9)
+
+
 COLORS = {
     0: "blue",
     1: "red",
@@ -74,6 +77,7 @@ class Printer:
             f.savefig(path)
         except Exception:
             plt.show()
+            plt.show()
 
     @staticmethod
     def draw_communities_from_sample(
@@ -85,19 +89,30 @@ class Printer:
     @staticmethod
     def draw_samples_modularities(
         samples: np.ndarray[dict],
-        modularities: np.ndarray,
+        mod_scores: np.ndarray,
+        matrix_res: np.ndarray,
+        score_res: np.ndarray,
         graph: nx.Graph,
         base_path: str,
         solver: str,
     ) -> None:
-        pos = (nx.spring_layout(graph, seed=123),)
-        for i, (s, m) in enumerate(zip(samples, modularities)):
-            pos = nx.spring_layout(graph, seed=123)
-            title = f"solver: {solver} mod: {m[0]}"
+        unpack_np = 0
+        pos = nx.spring_layout(graph, seed=123)
+        for i, s in enumerate(samples):
+            mod_sc = mod_scores[i][unpack_np]
+            m_res = matrix_res[i][unpack_np]
+            s_res = score_res[i][unpack_np]
+            title = (
+                f"\n{solver}\n"
+                + f"matrix_res: {m_res}\n"
+                + f"score_res: {s_res}\n"
+                + f"mod: {mod_sc}\n"
+            )
+            mr = str("{:.2f}".format(m_res)).replace(".", "_")
             Printer.draw_communities_from_sample(
                 sample=s[0],
                 graph=graph,
-                path=f"{base_path}_{i}.png",
+                path=f"{base_path}{i}" + f"_{mr}" + ".png",
                 pos=pos,
                 title=title,
             )

@@ -20,7 +20,7 @@ ParamGrid = TypedDict(
 
 class Search:
     @staticmethod
-    def run_grid(param_grid: ParamGrid) -> np.array:
+    def run_grid(param_grid: ParamGrid, n_communities: int) -> np.array:
         da = [MATRIX_RESOLUTION, SCORE_RESOLUTION]
         dt = [np.float_, np.float_]
         n_params = len(param_grid["resolution_grid"])
@@ -30,17 +30,13 @@ class Search:
         res: np.ndarray = np.ndarray((n_params, 1), dtype=types)
 
         for i, (res_val, mod_res) in enumerate(zip(*param_grid.values())):
-            # problem_instance = BPI.get(
-            #     resolution=res_val, n_communities=1
-            # )
+            # problem_instance = BPI.get(resolution=res_val, n_communities=1)
 
             # bqm = BQMFactory.bqm(problem=problem_instance, weights=[1])
 
             # runs_res = AdvantageSolution(
-            #     problem=problem_instance, n_communities=n_communtities
-            # ).compute(
-            #     bqm=bqm, n_runs=n_runs_per_param, score_mod_resolution=mod_res
-            # )
+            #     problem=problem_instance, n_communities=n_communities
+            # ).compute(bqm=bqm, n_runs=1, score_mod_resolution=mod_res)
 
             # np.savez("arr", runs_res=runs_res)
             npzfile = np.load("arr.npz", allow_pickle=True)

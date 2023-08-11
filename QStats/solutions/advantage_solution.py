@@ -17,7 +17,7 @@ class AdvantageSolution:
         self, bqm: dimod.BQM, n_runs: int, score_mod_resolution: float
     ) -> np.ndarray:
         # adv_res = Advantage.run(bqm=bqm, n_runs=n_runs)
-        adv_res: np.ndarray = np.array([])
+        adv_res = np.array([])
 
         raw_samples = adv_res[SAMPLE]
         energies = adv_res[EN]
