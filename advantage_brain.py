@@ -20,16 +20,12 @@ RES_RUNS = 15
 
 graph = BrainNetwork(IN_BRAIN_NETWORK_DIR, IN_BRAIN_NETWORK_FILE).graph
 
-# matrix_res_space = np.linspace(1.05, 1.3, RES_RUNS)
-# score_res_space = np.array([1] * RES_RUNS)
+matrix_res_space = np.linspace(1.05, 1.3, RES_RUNS)
+score_res_space = np.array([1] * RES_RUNS)
 
-# param_grid = ParamGrid(
-#     resolution_grid=matrix_res_space,
-#     modularity_score_resoltion=score_res_space,
-# )
 param_grid = ParamGrid(
-    resolution_grid=np.array([1.2] * 2),
-    modularity_score_resoltion=np.array([1.0] * 2),
+    resolution_grid=matrix_res_space,
+    modularity_score_resoltion=score_res_space,
 )
 
 res: np.ndarray = Search.run_grid(
