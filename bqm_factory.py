@@ -1,8 +1,9 @@
 import dimod
 from QHyper.problems.community_detection import BrainNetwork
 from QHyper.problems.community_detection import CommunityDetectionProblem
-from QHyper.problems.community_detection import \
-    CommunityDetectionProblem as CDP
+from QHyper.problems.community_detection import (
+    CommunityDetectionProblem as CDP,
+)
 from QHyper.solvers.converter import Converter
 
 from paths import IN_BRAIN_NETWORK_DIR, IN_BRAIN_NETWORK_FILE

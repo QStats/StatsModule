@@ -1,5 +1,7 @@
-from QHyper.problems.community_detection import (BrainNetwork,
-                                                 CommunityDetectionProblem)
+from QHyper.problems.community_detection import (
+    BrainNetwork,
+    CommunityDetectionProblem,
+)
 
 from paths import BRAIN_PR_NAME, IN_BRAIN_NETWORK_DIR, IN_BRAIN_NETWORK_FILE
 from QStats.solutions.louvain_solution import LouvainSolution

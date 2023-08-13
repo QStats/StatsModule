@@ -1,7 +1,8 @@
 import dimod
 import numpy as np
-from QHyper.problems.community_detection import \
-    CommunityDetectionProblem as CDP
+from QHyper.problems.community_detection import (
+    CommunityDetectionProblem as CDP,
+)
 from QStats.solvers.advantage.advantage import Advantage
 
 from QStats.utils.converter.converter import Converter as C

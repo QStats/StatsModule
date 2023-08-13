@@ -1,5 +1,6 @@
-from QHyper.problems.community_detection import \
-    CommunityDetectionProblem as CDP
+from QHyper.problems.community_detection import (
+    CommunityDetectionProblem as CDP,
+)
 
 
 class Converter:

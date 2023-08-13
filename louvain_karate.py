@@ -1,5 +1,7 @@
-from QHyper.problems.community_detection import (CommunityDetectionProblem,
-                                                 KarateClubNetwork)
+from QHyper.problems.community_detection import (
+    CommunityDetectionProblem,
+    KarateClubNetwork,
+)
 
 from paths import KARATE_PR_NAME
 from QStats.solutions.louvain_solution import LouvainSolution
