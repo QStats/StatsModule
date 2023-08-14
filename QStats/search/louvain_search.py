@@ -1,35 +1,23 @@
-from typing import TypedDict
-
 import networkx as nx
 import numpy as np
 
-from paths import BRAIN_PR_NAME
-from QStats.solutions.louvain_solution import LouvainSolution
+from QStats.search.base import ParamGrid, Search
+from QStats.solvers.louvain.louvain import Louvain
 from util import (LOU_RES_ALIASES, LOU_RES_DTYPES, MATRIX_RESOLUTION,
                   MOD_SCORE, R_TIME, SAMPLE, SCORE_RESOLUTION, K)
 
-ParamGrid = TypedDict(
-    "ParamGrid",
-    {"resolution_grid": np.ndarray, "score_resolutions": np.ndarray},
-)
 
-
-class LouvainSearch:
+class LouvainSearch(Search):
     def __init__(self, id: int, graph: nx.Graph) -> None:
         self.id = id
         self.graph = graph
 
     def search_grid(
-        self, param_grid: ParamGrid, n_runs_per_param: int
+        self, param_grid: ParamGrid, n_runs_per_param: int, n_jobs: int = 4
     ) -> np.ndarray:
         score_resolutions = param_grid["resolution_grid"]
         modularity_resolutions = param_grid["score_resolutions"]
-        if len(score_resolutions) != len(modularity_resolutions):
-            raise Exception(
-                "Param grid objects must be of the same length,"
-                + f"got of length {len(score_resolutions)}"
-                + f"and {len(modularity_resolutions)} instead"
-            )
+        self._check_param_grid_len(score_resolutions, modularity_resolutions)
         n_params = len(score_resolutions)
 
         grid_types = np.dtype(
@@ -47,13 +35,12 @@ class LouvainSearch:
         for i, (resolution_val, score_res) in enumerate(
             zip(score_resolutions, modularity_resolutions)
         ):
-            lou_sol = LouvainSolution(
-                graph=self.graph, problem_name=BRAIN_PR_NAME
-            )
-            runs_res = lou_sol.compute(
+            runs_res = Louvain.run_parallel(
                 n_runs=n_runs_per_param,
-                communities_res=resolution_val,
-                modularity_res=score_res,
+                graph=self.graph,
+                communities_resolution=resolution_val,
+                modularity_resolution=score_res,
+                n_jobs=n_jobs,
             )
 
             k = runs_res[K]
