@@ -1,20 +1,18 @@
 import numpy as np
 
-from paths import BRAIN_PR_NAME, csv_path, img_dir
+from paths import BRAIN_PR_NAME, csv_path
 from Printer.printer import Printer
-from QStats.search.search import ParamGrid, Search
+from QStats.search.advantage_search import ParamGrid, Search
 from QStats.solvers.advantage.advantage import Advantage
-from util import (BRAIN_NETWORK_GRAPH, MATRIX_RESOLUTION, MOD_SCORE, SAMPLE,
-                  SCORE_RESOLUTION)
 
-ID = 6
+ID = 7
 
 RES_RUNS = 15
-N_RUNS_PER_PARAM = 5
+N_RUNS_PER_PARAM = 2
 N_COMMUNITIES = 2
 
 
-matrix_res_space = np.linspace(0.8, 1.4, RES_RUNS)
+matrix_res_space = np.linspace(0.4, 1.8, RES_RUNS)
 score_res_space = np.array([1] * RES_RUNS)
 
 param_grid = ParamGrid(

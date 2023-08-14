@@ -1,25 +1,49 @@
-from QHyper.problems.community_detection import (BrainNetwork,
-                                                 CommunityDetectionProblem)
+import numpy as np
 
-from paths import BRAIN_PR_NAME, IN_BRAIN_NETWORK_DIR, IN_BRAIN_NETWORK_FILE
-from QStats.solutions.louvain_solution import LouvainSolution
+from paths import BRAIN_PR_NAME, csv_path, img_dir
+from Printer.printer import Printer
+from QStats.search.louvain_search import LouvainSearch, ParamGrid
+from QStats.solvers.louvain.louvain import Louvain
+from util import (BRAIN_NETWORK_GRAPH, MATRIX_RESOLUTION, MOD_SCORE, SAMPLE,
+                  SCORE_RESOLUTION)
 
 ID = 0
 
 C_RES = 0.11
 M_RES = 1
-N_RUNS = 2
+
+RES_RUNS = 60
+N_RUNS_PER_PARAM = 2
+N_COMMUNITIES = 2
 
 
-problem = CommunityDetectionProblem(
-    BrainNetwork(
-        input_data_dir=IN_BRAIN_NETWORK_DIR,
-        input_data_name=IN_BRAIN_NETWORK_FILE,
-        resolution=C_RES,
-    )
+matrix_res_space = np.linspace(0.01, 1.8, RES_RUNS)
+score_res_space = np.array([M_RES] * RES_RUNS)
+
+param_grid = ParamGrid(
+    resolution_grid=matrix_res_space,
+    score_resolutions=score_res_space,
 )
 
-louvain = LouvainSolution(problem=problem, problem_name=BRAIN_PR_NAME)
-louvain_res = louvain.compute(
-    n_runs=N_RUNS, communities_res=C_RES, modularity_res=M_RES, id=ID
+search = LouvainSearch(id=ID)
+res: np.ndarray = search.search_grid(
+    param_grid=param_grid, n_runs_per_param=N_RUNS_PER_PARAM
 )
+np.savez(f"res_{Louvain.name}_{ID}", res=res)
+
+Printer.csv_from_array(
+    res,
+    "w",
+    csv_path(id=ID, problem_name=BRAIN_PR_NAME, solver_name=Louvain.name),
+)
+# Printer.draw_samples_modularities(
+#     samples=res[SAMPLE],
+#     mod_scores=res[MOD_SCORE],
+#     matrix_res=res[MATRIX_RESOLUTION],
+#     score_res=res[SCORE_RESOLUTION],
+#     graph=BRAIN_NETWORK_GRAPH,
+#     base_path=img_dir(
+#         id=ID, problem_name=BRAIN_PR_NAME, solver_name=Louvain.name
+#     ),
+#     solver=Louvain.name,
+# )

@@ -7,12 +7,10 @@ from networkx.algorithms.community import louvain_communities
 
 from QStats.utils.converter.converter import Converter as C
 from QStats.utils.scorer.scorer import Scorer
-from util import MOD_SCORE, R_TIME, SAMPLE, K
+from util import LOU_RES_TYPES
 
 
 class Louvain:
-    d_aliases = [K, SAMPLE, MOD_SCORE, R_TIME]
-    d_types = [np.float_, np.object_, np.float64, np.float_]
     name = "louvain"
 
     @staticmethod
@@ -36,11 +34,8 @@ class Louvain:
         modularity_resolution: float,
         n_jobs: int = 4,
     ) -> np.ndarray:
-        types = np.dtype(
-            [(a, d) for a, d in zip(Louvain.d_aliases, Louvain.d_types)]
-        )
         dims = (n_runs, 1)
-        arr: np.ndarray = np.zeros(dims, dtype=types)
+        arr: np.ndarray = np.zeros(dims, dtype=LOU_RES_TYPES)
 
         res_lcda = Parallel(n_jobs=n_jobs)(
             delayed(Louvain.run)(
@@ -52,4 +47,5 @@ class Louvain:
         for idx, el in enumerate(res_lcda):
             arr[idx] = el
 
+        print(arr)
         return arr
