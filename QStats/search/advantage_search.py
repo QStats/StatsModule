@@ -1,10 +1,10 @@
-from typing import TypedDict
+from typing import Callable, TypedDict
 
 import numpy as np
 
 from paths import solver_dir
 from Printer.printer import Printer
-from QStats.provider.provider import BQM, ProblemInstance
+from QStats.provider.provider import BQM
 from QStats.solutions.advantage_solution import AdvantageSolution
 from util import (ADV_RES_ALIASES, ADV_RES_DTYPES, EN, MATRIX_RESOLUTION,
                   MOD_SCORE, R_TIME, SAMPLE, SCORE_RESOLUTION, K)
@@ -16,8 +16,11 @@ ParamGrid = TypedDict(
 
 
 class Search:
-    def __init__(self, id: int | str) -> None:
+    def __init__(
+        self, id: int | str, problem_instance_callable: Callable
+    ) -> None:
         self.id = id
+        self.problem_instance_callable = problem_instance_callable
 
     def search_grid(
         self, param_grid: ParamGrid, n_runs_per_param: int, n_communities: int
@@ -48,7 +51,11 @@ class Search:
         for i, (resolution_val, score_res) in enumerate(
             zip(score_resolutions, modularity_resolutions)
         ):
-            problem = ProblemInstance.brain_problem(
+            # problem = ProblemInstance.brain_problem(
+            #     n_communities=n_communities + BIN_OFFSET,
+            #     resolution=resolution_val,
+            # )
+            problem = self.problem_instance_callable(
                 n_communities=n_communities + BIN_OFFSET,
                 resolution=resolution_val,
             )

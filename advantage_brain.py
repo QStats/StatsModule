@@ -2,12 +2,13 @@ import numpy as np
 
 from paths import BRAIN_PR_NAME, csv_path
 from Printer.printer import Printer
+from QStats.provider.provider import ProblemInstance
 from QStats.search.advantage_search import ParamGrid, Search
 from QStats.solvers.advantage.advantage import Advantage
 
-ID = 7
+ID = 8
 
-RES_RUNS = 15
+RES_RUNS = 2
 N_RUNS_PER_PARAM = 2
 N_COMMUNITIES = 2
 
@@ -20,7 +21,7 @@ param_grid = ParamGrid(
     score_resolutions=score_res_space,
 )
 
-search = Search(id=ID)
+search = Search(id=ID, problem_instance_callable=ProblemInstance.brain_problem)
 res: np.ndarray = search.search_grid(
     param_grid=param_grid,
     n_runs_per_param=N_RUNS_PER_PARAM,

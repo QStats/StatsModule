@@ -1,19 +1,18 @@
 import numpy as np
 
-from paths import BRAIN_PR_NAME, csv_path, img_dir
+from paths import BRAIN_PR_NAME, csv_path
 from Printer.printer import Printer
 from QStats.search.louvain_search import LouvainSearch, ParamGrid
 from QStats.solvers.louvain.louvain import Louvain
-from util import (BRAIN_NETWORK_GRAPH, MATRIX_RESOLUTION, MOD_SCORE, SAMPLE,
-                  SCORE_RESOLUTION)
+from util import BRAIN_NETWORK_GRAPH
 
-ID = 0
+ID = 1
 
 C_RES = 0.11
 M_RES = 1
 
 RES_RUNS = 60
-N_RUNS_PER_PARAM = 2
+N_RUNS_PER_PARAM = 10
 N_COMMUNITIES = 2
 
 
@@ -25,7 +24,7 @@ param_grid = ParamGrid(
     score_resolutions=score_res_space,
 )
 
-search = LouvainSearch(id=ID)
+search = LouvainSearch(id=ID, graph=BRAIN_NETWORK_GRAPH)
 res: np.ndarray = search.search_grid(
     param_grid=param_grid, n_runs_per_param=N_RUNS_PER_PARAM
 )

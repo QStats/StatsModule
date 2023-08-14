@@ -1,12 +1,12 @@
 from typing import TypedDict
 
+import networkx as nx
 import numpy as np
 
 from paths import BRAIN_PR_NAME
 from QStats.solutions.louvain_solution import LouvainSolution
-from util import (BRAIN_NETWORK_GRAPH, LOU_RES_ALIASES, LOU_RES_DTYPES,
-                  MATRIX_RESOLUTION, MOD_SCORE, R_TIME, SAMPLE,
-                  SCORE_RESOLUTION, K)
+from util import (LOU_RES_ALIASES, LOU_RES_DTYPES, MATRIX_RESOLUTION,
+                  MOD_SCORE, R_TIME, SAMPLE, SCORE_RESOLUTION, K)
 
 ParamGrid = TypedDict(
     "ParamGrid",
@@ -15,8 +15,9 @@ ParamGrid = TypedDict(
 
 
 class LouvainSearch:
-    def __init__(self, id: int) -> None:
+    def __init__(self, id: int, graph: nx.Graph) -> None:
         self.id = id
+        self.graph = graph
 
     def search_grid(
         self, param_grid: ParamGrid, n_runs_per_param: int
@@ -46,9 +47,8 @@ class LouvainSearch:
         for i, (resolution_val, score_res) in enumerate(
             zip(score_resolutions, modularity_resolutions)
         ):
-            problem_graph = BRAIN_NETWORK_GRAPH
             lou_sol = LouvainSolution(
-                graph=problem_graph, problem_name=BRAIN_PR_NAME
+                graph=self.graph, problem_name=BRAIN_PR_NAME
             )
             runs_res = lou_sol.compute(
                 n_runs=n_runs_per_param,
