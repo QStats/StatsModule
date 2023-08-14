@@ -1,7 +1,6 @@
 import numpy as np
-from QHyper.problems.community_detection import (
-    CommunityDetectionProblem as CDP,
-)
+from QHyper.problems.community_detection import \
+    CommunityDetectionProblem as CDP
 
 from paths import csv_path, img_dir
 from Printer.printer import Printer
@@ -19,6 +18,7 @@ class LouvainSolution:
         n_runs: int,
         communities_res: float,
         modularity_res: float,
+        id: int | str,
         n_jobs: int = 4,
     ) -> np.ndarray:
         res = Louvain.run_parallel(
@@ -30,7 +30,7 @@ class LouvainSolution:
         )
 
         Printer.csv_from_array(
-            res, "w", csv_path(1, self.problem_name, Louvain.name)
+            res, "w", csv_path(id, self.problem_name, Louvain.name)
         )
         Printer.draw_samples_modularities(
             samples=res[SAMPLE],
@@ -38,7 +38,7 @@ class LouvainSolution:
             matrix_res=np.array([[0] * len(res[SAMPLE])]),
             score_res=np.array([[0] * len(res[SAMPLE])]),
             graph=self.problem.G,
-            base_path=img_dir(1, self.problem_name, Louvain.name),
+            base_path=img_dir(id, self.problem_name, Louvain.name),
             solver=Louvain.name,
         )
 

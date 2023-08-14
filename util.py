@@ -1,8 +1,8 @@
 import networkx as nx
 import numpy as np
+from QHyper.problems.community_detection import BrainNetwork
 
-G = nx.karate_club_graph()
-
+from paths import IN_BRAIN_NETWORK_DIR, IN_BRAIN_NETWORK_FILE
 
 MATRIX_RESOLUTION = "matrix_res"
 SCORE_RESOLUTION = "score_res"
@@ -18,4 +18,7 @@ ADV_RES_TYPES = np.dtype(
     [(a, t) for a, t in zip(ADV_RES_ALIASES, ADV_RES_DTYPES)]
 )
 
-# EXP_ALIASES = [MATRIX_RESOLUTION, ]
+G = nx.karate_club_graph()
+BRAIN_NETWORK_GRAPH = BrainNetwork(
+    IN_BRAIN_NETWORK_DIR, IN_BRAIN_NETWORK_FILE
+).graph

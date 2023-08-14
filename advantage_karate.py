@@ -1,8 +1,6 @@
 import dimod
-from QHyper.problems.community_detection import (
-    CommunityDetectionProblem,
-    KarateClubNetwork,
-)
+from QHyper.problems.community_detection import (CommunityDetectionProblem,
+                                                 KarateClubNetwork)
 from QHyper.solvers.converter import Converter
 
 from paths import KARATE_PR_NAME
