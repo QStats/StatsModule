@@ -9,16 +9,16 @@ from Utils.Printer.printer import Printer
 from util import G, MATRIX_RESOLUTION, MOD_SCORE, SAMPLE, SCORE_RESOLUTION
 
 
-ID = 2
+ID = 4
 N_COMMUNITIES = 2
+
+GAMMA_LOWER_BOUND = 0.8
+GAMMA_UPPER_BOUND = 1.6
 
 SCORE_RES = 1
 
-GAMMA_LOWER_BOUND = 0.4
-GAMMA_UPPER_BOUND = 1.5
-
-RES_RUNS = 20
-N_RUNS_PER_PARAM = 5
+RES_RUNS = 10
+N_RUNS_PER_PARAM = 20
 
 
 matrix_res_space = np.linspace(GAMMA_LOWER_BOUND, GAMMA_UPPER_BOUND, RES_RUNS)
@@ -45,12 +45,12 @@ np.savez(f"{ID}_res_{KARATE_PR_NAME}_{Advantage.name}", res=res)
 # res = npzfile["res"]
 
 Printer.csv_from_array(res, "w", csv_path(ID, KARATE_PR_NAME, Advantage.name))
-Printer.draw_samples_modularities(
-    samples=res[SAMPLE],
-    mod_scores=res[MOD_SCORE],
-    matrix_res=res[MATRIX_RESOLUTION],
-    score_res=res[SCORE_RESOLUTION],
-    graph=G,
-    base_path=img_dir(id=ID, problem_name=KARATE_PR_NAME, solver_name="adv"),
-    solver="adv"
-)
+# Printer.draw_samples_modularities(
+#     samples=res[SAMPLE],
+#     mod_scores=res[MOD_SCORE],
+#     matrix_res=res[MATRIX_RESOLUTION],
+#     score_res=res[SCORE_RESOLUTION],
+#     graph=G,
+#     base_path=img_dir(id=ID, problem_name=KARATE_PR_NAME, solver_name="adv"),
+#     solver="adv"
+# )

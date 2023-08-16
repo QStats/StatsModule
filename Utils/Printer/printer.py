@@ -104,15 +104,15 @@ class Printer:
             s_res = score_res[i][unpack_np]
             title = (
                 f"\n{solver}\n"
-                + f"matrix_res: {m_res}\n"
-                + f"score_res: {s_res}\n"
-                + f"mod: {mod_sc}\n"
+                + f"matrix_res: {m_res:.2f}\n"
+                + f"score_res: {s_res:.2f}\n"
+                + f"mod: {mod_sc:.4f}\n"
             )
             mr = str("{:.2f}".format(m_res)).replace(".", "_")
             Printer.draw_communities_from_sample(
                 sample=s[0],
                 graph=graph,
-                path=f"{base_path}{i}" + f"_{mr}" + ".png",
+                path=f"{base_path}{i}" + f"_res{mr}" + ".png",
                 pos=pos,
                 title=title,
             )

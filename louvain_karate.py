@@ -11,13 +11,16 @@ from Utils.Printer.printer import Printer
 ID = 0
 N_COMMUNITIES = 2
 
+GAMMA_LOWER_BOUND = 0.4
+GAMMA_UPPER_BOUND = 1.5
+
 SCORE_RES = 1
 
-RES_RUNS = 40
-N_RUNS_PER_PARAM = 10
+RES_RUNS = 20
+N_RUNS_PER_PARAM = 5
 
 
-matrix_res_space = np.linspace(0.1, 1.0, RES_RUNS)
+matrix_res_space = np.linspace(GAMMA_LOWER_BOUND, GAMMA_UPPER_BOUND, RES_RUNS)
 score_res_space = np.array([SCORE_RES] * RES_RUNS)
 
 param_grid = ParamGrid(
