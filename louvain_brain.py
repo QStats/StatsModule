@@ -29,7 +29,6 @@ search = LouvainSearch(id=ID, graph=BRAIN_NETWORK_GRAPH)
 res: np.ndarray = search.search_grid(
     param_grid=param_grid, n_runs_per_param=N_RUNS_PER_PARAM
 )
-np.savez(f"{ID}_res_{BRAIN_PR_NAME}_{Louvain.name}", res=res)
 
 Printer.csv_from_array(
     res,
