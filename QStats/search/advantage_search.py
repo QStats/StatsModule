@@ -60,6 +60,7 @@ class AdvantageSearch(Search):
                 n_runs=n_runs_per_param,
                 score_mod_resolution=score_res,
             )
+            del bqm, adv_sol
 
             save_dir = solver_dir(self.id, self.problem_name, "adv")
             file_path = f"{save_dir}/run_res_{i}"
@@ -90,5 +91,6 @@ class AdvantageSearch(Search):
             result[start_idx:end_idx, :] = resolution_results[
                 0:n_runs_per_param, :
             ]
+            del col_stack, resolution_results, k, samples, modularity_scores, energies, r_times, rv, sr
 
         return result
