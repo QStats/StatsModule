@@ -8,16 +8,18 @@ from util import G
 from Utils.Printer.printer import Printer
 
 
-ID = 0
+ID = 3
 N_COMMUNITIES = 2
 
-GAMMA_LOWER_BOUND = 0.4
-GAMMA_UPPER_BOUND = 1.5
+# GAMMA_LOWER_BOUND = 0.4
+# GAMMA_UPPER_BOUND = 1.5
+GAMMA_LOWER_BOUND = 0.85
+GAMMA_UPPER_BOUND = 1.6
 
 SCORE_RES = 1
 
-RES_RUNS = 20
-N_RUNS_PER_PARAM = 5
+RES_RUNS = 1
+N_RUNS_PER_PARAM = 10
 
 
 matrix_res_space = np.linspace(GAMMA_LOWER_BOUND, GAMMA_UPPER_BOUND, RES_RUNS)
