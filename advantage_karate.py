@@ -9,7 +9,7 @@ from Utils.Printer.printer import Printer
 from util import G, MATRIX_RESOLUTION, MOD_SCORE, SAMPLE, SCORE_RESOLUTION
 
 
-ID = 4
+ID = 6
 N_COMMUNITIES = 2
 
 GAMMA_LOWER_BOUND = 0.8
@@ -17,8 +17,8 @@ GAMMA_UPPER_BOUND = 1.6
 
 SCORE_RES = 1
 
-RES_RUNS = 10
-N_RUNS_PER_PARAM = 20
+RES_RUNS = 20
+N_RUNS_PER_PARAM = 30
 
 
 matrix_res_space = np.linspace(GAMMA_LOWER_BOUND, GAMMA_UPPER_BOUND, RES_RUNS)
