@@ -7,15 +7,21 @@ from QStats.search.base import ParamGrid
 from QStats.solvers.advantage.advantage import Advantage
 from Utils.Printer.printer import Printer
 
-ID = 8
 
-RES_RUNS = 2
-N_RUNS_PER_PARAM = 2
+ID = 9
 N_COMMUNITIES = 2
 
+GAMMA_LOWER_BOUND = 0.95
+GAMMA_UPPER_BOUND = 1.36
 
-matrix_res_space = np.linspace(0.4, 1.8, RES_RUNS)
-score_res_space = np.array([1] * RES_RUNS)
+SCORE_RES = 1
+
+RES_RUNS = 5
+N_RUNS_PER_PARAM = 20
+
+
+matrix_res_space = np.linspace(GAMMA_LOWER_BOUND, GAMMA_UPPER_BOUND, RES_RUNS)
+score_res_space = np.array([SCORE_RES] * RES_RUNS)
 
 param_grid = ParamGrid(
     resolution_grid=matrix_res_space,
