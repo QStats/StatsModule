@@ -47,4 +47,5 @@ class Louvain:
         for idx, el in enumerate(res_lcda):
             arr[idx] = el
 
+        del res_lcda
         return arr
