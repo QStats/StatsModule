@@ -1,14 +1,14 @@
 OUTPUT_DIR = "output"
 CSV_DIR_SUFF = "csv_files"
 
-# IN_BRAIN_NETWORK_DIR = (
-#     "C:\\Users\\basia\\Desktop\\Praca_Inzynierska"
-#     + "\\QHyper\\demo\\network_community_detection\\brain_networks_data"
-# )
 IN_BRAIN_NETWORK_DIR = (
-    "/net/ascratch/people/plgbwojtarow/QHyper/QHyper"
-    + "/demo/network_community_detection/brain_networks_data"
+    "C:\\Users\\basia\\Desktop\\Praca_Inzynierska"
+    + "\\QHyper\\demo\\network_community_detection\\brain_networks_data"
 )
+# IN_BRAIN_NETWORK_DIR = (
+#     "/net/ascratch/people/plgbwojtarow/QHyper/QHyper"
+#     + "/demo/network_community_detection/brain_networks_data"
+# )
 IN_BRAIN_NETWORK_FILE = "Edge_AAL90_Binary"
 
 KARATE_PR_NAME = "karate"

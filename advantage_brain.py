@@ -7,7 +7,6 @@ from QStats.search.base import ParamGrid
 from QStats.solvers.advantage.advantage import Advantage
 from Utils.Printer.printer import Printer
 
-
 ID = 10
 N_COMMUNITIES = 2
 

@@ -7,7 +7,6 @@ from QStats.solvers.louvain.louvain import Louvain
 from util import G
 from Utils.Printer.printer import Printer
 
-
 ID = 3
 N_COMMUNITIES = 2
 

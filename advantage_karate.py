@@ -1,13 +1,11 @@
 import numpy as np
 
-from paths import KARATE_PR_NAME, csv_path, img_dir, solver_dir
+from paths import KARATE_PR_NAME, csv_path
 from QStats.provider.provider import ProblemInstance
 from QStats.search.advantage_search import AdvantageSearch
 from QStats.search.base import ParamGrid
 from QStats.solvers.advantage.advantage import Advantage
 from Utils.Printer.printer import Printer
-from util import G, MATRIX_RESOLUTION, MOD_SCORE, SAMPLE, SCORE_RESOLUTION
-
 
 ID = 6
 N_COMMUNITIES = 2

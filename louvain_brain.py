@@ -7,8 +7,7 @@ from QStats.solvers.louvain.louvain import Louvain
 from util import BRAIN_NETWORK_GRAPH
 from Utils.Printer.printer import Printer
 
-
-ID = 1
+ID = 4
 N_COMMUNITIES = 2
 
 GAMMA_LOWER_BOUND = 0.01
@@ -16,8 +15,8 @@ GAMMA_UPPER_BOUND = 1.8
 
 SCORE_RES = 1
 
-RES_RUNS = 60
-N_RUNS_PER_PARAM = 10
+RES_RUNS = 50
+N_RUNS_PER_PARAM = 1000
 
 
 matrix_res_space = np.linspace(GAMMA_LOWER_BOUND, GAMMA_UPPER_BOUND, RES_RUNS)

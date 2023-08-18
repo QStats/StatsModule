@@ -91,6 +91,16 @@ class AdvantageSearch(Search):
             result[start_idx:end_idx, :] = resolution_results[
                 0:n_runs_per_param, :
             ]
-            del col_stack, resolution_results, k, samples, modularity_scores, energies, r_times, rv, sr
+            del (
+                col_stack,
+                resolution_results,
+                k,
+                samples,
+                modularity_scores,
+                energies,
+                r_times,
+                rv,
+                sr,
+            )
 
         return result

@@ -34,7 +34,15 @@ class AdvantageSolution:
         res = np.array(
             list(map(tuple, col_stack[::])), dtype=ADV_RES_TYPES
         ).reshape(samples.shape[0], 1)
-        del col_stack, raw_samples, energies, r_times, k, samples, modularity_scores
+        del (
+            col_stack,
+            raw_samples,
+            energies,
+            r_times,
+            k,
+            samples,
+            modularity_scores,
+        )
 
         return res
 
