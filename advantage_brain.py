@@ -8,16 +8,16 @@ from QStats.solvers.advantage.advantage import Advantage
 from Utils.Printer.printer import Printer
 
 
-ID = 9
+ID = 10
 N_COMMUNITIES = 2
 
 GAMMA_LOWER_BOUND = 0.95
-GAMMA_UPPER_BOUND = 1.36
+GAMMA_UPPER_BOUND = 1.26
 
 SCORE_RES = 1
 
-RES_RUNS = 5
-N_RUNS_PER_PARAM = 20
+RES_RUNS = 4
+N_RUNS_PER_PARAM = 30
 
 
 matrix_res_space = np.linspace(GAMMA_LOWER_BOUND, GAMMA_UPPER_BOUND, RES_RUNS)
